@@ -48,4 +48,10 @@ public class ScoreManager : MonoBehaviour
     {
         SceneManager.LoadScene("StartMenu");
     }
+
+    public void ClearScore()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("HighScore");
+    }
 }

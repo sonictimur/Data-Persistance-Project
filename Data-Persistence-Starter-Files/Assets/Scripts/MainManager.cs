@@ -46,7 +46,6 @@ public class MainManager : MonoBehaviour
     void CalculateBestScore()
     {
         int playerCount = PlayerPrefs.GetInt("PlayerCount");
-        List<int> scores = new List<int>();
 
         string bestPlayerName = "N/A";
         int bestPlayerScore = 0;
@@ -62,30 +61,48 @@ public class MainManager : MonoBehaviour
             //scores.Sort();
             //bestPlayerScore = scores[0];
 
-            List<List<string>> listOfPlayers = new List<List<string>>();
+            List<List<string>> allPlayerInfo = new List<List<string>>();
+
+            List<string> playerNames = new List<string>();
+            List<int> playerScores = new List<int>();
 
             for (int i = 1; i <= playerCount; i++)
             {
                 string playerName = PlayerPrefs.GetString(i.ToString());
-
                 int playerScore = Convert.ToInt32(PlayerPrefs.GetString(i.ToString() + "score", "0"));
 
-                List<string> nameScore = new List<string>();
-                nameScore.Add(playerName);
-                nameScore.Add(playerScore.ToString());
+                playerNames.Add(playerName);
+                playerScores.Add(playerScore);
 
-                listOfPlayers.Add(nameScore);
+                List<string> playerInfo = new List<string>();
+                playerInfo.Add(playerName);
+                playerInfo.Add(playerScore.ToString());
+
+                allPlayerInfo.Add(playerInfo);
             }
 
-            listOfPlayers = listOfPlayers.OrderBy(lst => lst[0][1]).ToList();
+            playerScores.Sort();
 
-            foreach (List<string> player in listOfPlayers)
+            for (int i = 0; i <= playerNames.Count; i++)
             {
-                Debug.Log(player[1]);
+                if (playerScores[playerScores.Count - 1].ToString() == allPlayerInfo[i][1])
+                {
+                    if (i == 0)
+                    {
+                        bestPlayerName = allPlayerInfo[0][0];
+                        Debug.Log("Best Player Found!");
+                        break;
+                    } else
+                    {
+                        bestPlayerName = allPlayerInfo[i - 1][0];
+                        Debug.Log("Best Player Found!");
+                        break;
+                    }
+
+                }
             }
 
-            bestPlayerName = listOfPlayers[0][0];
-            bestPlayerScore = Convert.ToInt32(listOfPlayers[0][1]);
+            bestPlayerScore = Convert.ToInt32(playerScores[playerScores.Count - 1]);
         }
 
         bestScore.text = $"Best Score : {bestPlayerScore} || By Player Name: {bestPlayerName}";

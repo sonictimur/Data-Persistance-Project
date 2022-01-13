@@ -829,7 +829,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'GAME OVER
 
-    Press Space to Restart'
+    Press Space for Hall of Fame'
 --- !u!222 &474497241
 CanvasRenderer:
   m_ObjectHideFlags: 0
